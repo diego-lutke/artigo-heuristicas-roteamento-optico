@@ -1,0 +1,32 @@
+\section{Fundamentação Teórica} \label{sec:fundaments}
+
+Nesta seção discutem-se os principais conceitos relacionados às redes ópticas e aos algoritmos de roteamento.
+
+\subsection{Elementos de uma Rede Óptica}
+Uma rede óptica é composta por diferentes elementos físicos:
+\begin{itemize}
+    \item \textbf{Cabos ópticos:} compostos por múltiplos tubos contendo fibras.
+    \item \textbf{Fibras ópticas:} meio físico de transmissão de sinais luminosos.
+    \item \textbf{Caixa de emenda:} ponto de junção e proteção de fibras.
+    \item \textbf{Caixa de atendimento:} permite a derivação de fibras para usuários finais.
+\end{itemize}
+Cada elemento possui custos associados (de instalação, operação e manutenção) que influenciam no peso das arestas do grafo.
+
+\subsection{Algoritmos de Roteamento}
+O problema de roteamento em redes pode ser resolvido por diferentes algoritmos:
+\begin{itemize}
+    \item \textbf{Dijkstra:} encontra o caminho de menor custo em grafos com pesos não negativos.
+    \item \textbf{Bellman-Ford:} lida com arestas de peso negativo, mas com maior complexidade temporal.
+\end{itemize}
+Para redes ópticas, em que os custos são sempre não negativos (distância, atenuação, ou custo de instalação), o algoritmo de Dijkstra é mais adequado.
+
+\subsection{Programação Linear e Complexidade}
+O roteamento de fibras pode ser formulado como um problema de \textbf{programação linear inteira},
+onde variáveis binárias indicam se uma fibra ou enlace é utilizado.
+Entretanto, tais problemas são NP-difíceis, devido à combinação exponencial de caminhos possíveis.
+Por isso, heurísticas como Dijkstra são práticas e eficientes em instâncias reais.
+
+\subsection{Roteamento e Alocação de Banda}
+Além da escolha do caminho, a rede precisa alocar espectro e largura de banda.
+O problema de \textit{Routing and Wavelength Assignment} (RWA) é conhecido por sua complexidade computacional,
+reforçando a necessidade de algoritmos heurísticos e aproximativos.
