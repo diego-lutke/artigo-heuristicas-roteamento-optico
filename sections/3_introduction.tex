@@ -1,9 +1,22 @@
 \section{Introdução}
 
-As redes ópticas representam a espinha dorsal da conectividade global,
-responsáveis pela transmissão de grandes volumes de dados com alta
-confiabilidade. Um dos desafios centrais no planejamento e operação dessas
-redes é o roteamento de caminhos físicos, isto é, a definição de quais fibras
-ópticas serão utilizadas para conectar dois pontos geográficos distintos. Este
-artigo propõe o uso do algoritmo de Dijkstra para realizar o roteamento ótimo
-de caminhos físicos em uma topologia representada por grafos ponderados.
+Atualmente, as redes ópticas representam a espinha dorsal da conectividade
+global, responsáveis pela transmissão de grandes volumes de dados em torno do
+globo terrestre via cabos aéreos e submarinos. Embora as normas e os desafios
+iniciais das implementações de redes ópticas pioneiras tenham atigindo um platô
+de estabilidade na última década, devido a expansão desse tipo de rede dos
+backbones para as redes de acesso, ainda há uma série de desafios relacionados
+a operação e a implementação desse tipo de rede.
+
+Um dos desafios centrais no planejamento e operação dessas redes é o roteamento
+de caminhos físicos, isto é, a definição de quais fibras ópticas serão
+utilizadas para conectar dois pontos geográficos distintos. Este artigo propõe
+desenvolver um algoritmo heurístico para o roteamento de uma fibra dado uma
+rede em funcionamento. Esse artigo é organizado no seguinte formato: na Seção
+\ref{sec:fundaments} aborda-se os elementos de rede relevantes para o estudo
+proposto, os algoritmos de base e o que já existe de estudos acadêmicos
+relevantes próximo do presente artigo na Seção \ref{sec:problem} define-se e
+delimita-se o problema de roteamento, na Seção \ref{sec:algorithm}
+desenvolve-se o algoritmo e, por fim, as considerações finais são dadas em
+\ref{sec:conclusion}.
+
