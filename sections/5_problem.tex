@@ -1,5 +1,27 @@
 \section{Definição do Problema} \label{sec:problem}
 
+Para delimitar o escopo do problema, primeiro: elementos ativos não serão
+considerados (ex.: terminal de linha óptico); segundo: uma fibra será
+considerada ocupada (isto é, alocada) caso haja um comprimento de onda
+associado a ela, ao longo desse artigo, vamos considerar apenas um comprimento
+de onda por alocação (multiplexaćão por divisão de onda não será considerado);
+terceiro: desconsidera-se atenuação; quarto: desconsidera-se o uso de
+splitters, onde um mesmo comprimento de onda em uma fibra é "espalhado" para
+$n$ fibras em um nó.
+
+Fazendo um palalelo com \cite{artigorwa} e \cite{zang2000review}, podemos notar
+a menção de "conversores ópticos", em uma aplicaćão mais genérica. O presente
+artigo é um "subconjunto" do tema de alocação e roteamento de onda tratado nas
+referências citadas.
+
+- como uma rede nova é ocupada? De cima para baixo, ou de baixo para cima?
+- qual seria a solução ótima?
+- cabo de x para n para x fibras (fazer uma figura?);
+- fatorial das combinações;
+- tubos abertos vs. sangria;
+- quando fazer manobras;
+- fazer comparativo com o problema de otimização de fluxo máximo;
+
 Considere uma rede óptica modelada como um grafo $G=(V,E)$,
 onde $V$ representa os nós (caixas de emenda ou atendimento) e $E$ representa enlaces (cabos/fibras).
 Cada aresta $e \in E$ possui um peso $w(e)$ correspondente ao custo físico (distância, atenuação ou custo de implantação).
