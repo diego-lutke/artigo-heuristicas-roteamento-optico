@@ -1,5 +1,10 @@
 \section{Desenvolvimento} \label{sec:algorithm}
 
+Considere uma rede óptica modelada como um grafo $G=(V,E)$,
+onde $V$ representa os nós (caixas de emenda ou atendimento) e $E$ representa enlaces (cabos/fibras).
+Cada aresta $e \in E$ possui um peso $w(e)$ correspondente ao custo físico (distância, atenuação ou custo de implantação).
+O objetivo é determinar o caminho de menor custo entre um nó origem $s$ e um nó destino $t$.
+
 O algoritmo de Dijkstra é empregado para resolver o problema.
 O pseudo-código é dado a seguir:
 
@@ -10,5 +15,7 @@ O pseudo-código é dado a seguir:
     \item Atualizar as distâncias dos vizinhos, se o novo caminho for mais curto.
     \item Repetir até que todos os nós tenham sido visitados ou que o destino $t$ tenha sido alcançado.
 \end{enumerate}
+
+- quando fazer manobras;
 
 ...
