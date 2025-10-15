@@ -11,7 +11,7 @@
 O algoritmo proposto é dividido em duas camadas: (1) cálculo do caminho mais
 curto, implementado a partir do algoritmo de Dijkstra e responsável por
 identificar o percurso de menor custo entre origem e destino; (2) escolha e
-alocação das fibras, após definido o caminho, o algoritmo verifica a
+alocação das fibras, após definido o caminho, onde o algoritmo verifica a
 disponibilidade de fibras livres em cada enlace e seleciona a melhor fibra.
 
 A melhor fibra é escolhida baseada em três modos (1) coletando fibra em tubo
@@ -26,21 +26,23 @@ algoritmo para alocar as fibras de menor índice para backbones e as fibras de
 maior índice para redes PON.
 
 O uso de memória deve ser considerado também para redes de grande porte.
-Suponha-se que seja selecionado um número elevado de melhores rotas, a
-complexidade de espaço será igual a $O(n)$ do somatório de todas as conexões
-de tubos, visto que essas conexões podem ser descartadas após a análise das fibras
-de cada rota.
+Supondo que seja selecionado um número elevado de melhores rotas, a
+complexidade de espaço será igual a $O(n)$ do somatório da rota com a maior
+quantidade de conexões de tubo, visto que a pilha das conexões devem ser
+descartadas após a análise de cada rota (linha 7 do Algoritmo
+\ref{alg:the_alg}).
 
 Interessante também considerar o armazenamento da última fibra usada nos modos
-1 ou 2. Caso a fibra atual não seja uma fibra similar a amazenada, pode-se continuar
-com a fibra armazenada. Esse tipo de situação leva ao exemplo mostrado na Figura
-\ref{fig:fluxo_reduzido}.
+1 ou 2. Caso a fibra atual não seja uma fibra similar a armazenada, pode-se
+continuar com a fibra armazenada. Esse tipo de situação leva ao exemplo
+mostrado na Figura \ref{fig:fluxo_reduzido}.
 
 \subsection{Pseudocódigo Simplificado}
 
 \begin{algorithm}[H]
 \floatname{algorithm}{Algoritmo}
 \caption{Seleção das melhores fibras}
+\label{alg:the_alg}
 \begin{algorithmic}[1]
 \State $\mathcal{R} \gets$ selecionar $n$ melhores rotas
 \ForAll{$r \in \mathcal{R}$}
@@ -85,7 +87,7 @@ com a fibra armazenada. Esse tipo de situação leva ao exemplo mostrado na Figu
 
 A heurística permite identificar rotas viáveis com uso eficiente das fibras,
 reduzindo bloqueios e maximizando a utilização de recursos ópticos. Em cenários
-com múltiplos caminhos equivalentes, o algoritmo pode ser estendido para
+com múltiplos caminhos equivalentes. O algoritmo pode ser estendido para
 priorizar critérios adicionais, como distância física, tempo de
 restabelecimento ou confiabilidade. Embora ainda não tenha sido implementada em
 um ambiente de simulação, a estrutura proposta fornece base sólida para

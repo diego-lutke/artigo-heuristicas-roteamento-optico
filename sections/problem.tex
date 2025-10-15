@@ -1,16 +1,16 @@
 \section{Escopo do Problema} \label{sec:problem}
 
-Para delimitar o escopo do problema, primeiro: elementos ativos não serão
-considerados (ex.: terminal de linha óptico); segundo: uma fibra será
+Para delimitar o escopo do problema, primeiro, elementos ativos não serão
+considerados (ex.: terminal de linha óptico); segundo, uma fibra será
 considerada ocupada (isto é, alocada) caso haja um comprimento de onda
 associado a ela, ao longo desse artigo, vamos considerar apenas um comprimento
 de onda por alocação (multiplexação por divisão de onda não será considerado);
-terceiro: desconsidera-se atenuação; quarto: desconsidera-se o uso de
+terceiro, desconsidera-se atenuação e quarto: desconsidera-se o uso de
 splitters, onde um mesmo comprimento de onda em uma fibra é "espalhado" para
 $n$ fibras em um nó.
 
 Fazendo um palalelo com \cite{artigorwa} e \cite{zang2000review}, podemos notar
-a menção de "conversores ópticos", em uma aplicação mais genérica. O presente
+a menção de conversores ópticos, em uma aplicação mais genérica. O presente
 artigo é um "subconjunto" do tema de alocação e roteamento de onda tratado nas
 referências citadas.
 
@@ -26,7 +26,7 @@ perdem o "espelhamento", porém note que os sinais retornam para o mesmo índice
 no cabo seguinte, isso facilita muito ao trocar o cabo temporário por outro de
 maior capacidade.
 
-\begin{figure}
+\begin{figure}[hb]
   \centering
   \caption{fluxo reduzido}
   \begin{tikzpicture}[font=\footnotesize]
@@ -99,11 +99,11 @@ maior capacidade.
 	\label{fig:fluxo_reduzido}
 \end{figure}
 
-Outro ponto de relevância na elaboração de qualquer algoritmo para tratar do
-problema do presente artigo, é o fato de que alocação de fibras é um problema
-NP-completo. É trivial comprovar isso, pois da mesma forma que o problema do
-caixeiro-viajante \cite{lawler1985travelling} é fatorial com cada cidade
-adicionada, para cada par de fibra adicionado, as combinações crescem em
+Outro ponto de relevância na elaboração de qualquer algoritmo para tratar de
+problemas similares ao do presente artigo, é o fato de que alocação de fibras é
+um problema NP-completo. É trivial comprovar isso, pois da mesma forma que o
+problema do caixeiro-viajante \cite{lawler1985travelling} é fatorial com cada
+cidade adicionada, para cada par de fibra adicionado, as combinações crescem em
 $O(n!)$. A Figura \ref{fig:combinacoes_possiveis} ilustra todas as combinações
 possíveis para três pares de fibra.
 

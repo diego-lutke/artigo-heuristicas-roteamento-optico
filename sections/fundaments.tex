@@ -27,12 +27,12 @@ acordo com as demandas de atendimento das operadoras. CAs atendem clientes finai
 geralmente com o uso de tecnologias de Redes Ópticas Passivas (PON).
 
 Esse redirecionamento das fibras ocorre com o uso de máquinas de fusão
-\cite{maeda2009optical}, cada par de fibras é acomodado em bandejas, conforme
-mostra a Figura \ref{fig:ce_detalhe_bandejas}. Em um caso ideal, espera-se que
-de acordo com as requisições de demanda recebida, a ocupação das ranhuras seja
-feita de forma sequencial e organizada. Por exemplo, em um cabo contendo 12
-tubos, com 12 fibras cada cabo, o grupo de ranhuras superior recebe o primeiro
-tubo, o segundo grupo o segundo tubo, assim por diante.
+\cite{maeda2009optical}, onde cada par de fibras é acomodado em bandejas,
+conforme mostra a Figura \ref{fig:ce_detalhe_bandejas}. Em um caso ideal,
+espera-se que de acordo com as requisições de demanda recebida, a ocupação das
+ranhuras seja feita de forma sequencial e organizada. Por exemplo, em um cabo
+contendo 12 tubos, com 12 fibras cada cabo, o grupo de ranhuras superior recebe
+o primeiro tubo, o segundo grupo o segundo tubo, assim por diante.
 
 \subsection{Algoritmos para Cálculo de Rotas}
 
@@ -44,7 +44,7 @@ Bellman-Ford (lida com arestas de peso negativo, mas com maior complexidade
 temporal).
 
 Embora o Algoritmo de Dijkstra não funcione com custos negativos, podemos
-considerá-lo, visto que o custo será igual a distância, um exemplo de uso pode
+considerá-lo, visto que o custo será igual a distância. Um exemplo de uso pode
 ser visto na Figura \ref{fig:dijkastra_graph} em conjunto com a Figura
 \ref{fig:dijkastra_table}. Importante destacar que o Algoritmo de Dijkstra não
 funciona bem para longas sequências de nós, visto que a lógica do mesmo
@@ -55,10 +55,10 @@ considerá-lo, pois do ponto de vista de complexidade de tempo, observa-se três
 etapas que fazem a base dessa complexidade (1) quando um novo vértice é
 empurrado/adicionado à fila de prioridades, (2) quando um vértice com distância
 mínima é retirado da fila de prioridade e (3) quando a distância de um vértice
-é diminuída na fila de prioridade. Considerando uma estrutura de fila com lista,
-empurrar e retirar nós da fila são ambos iguais a $O(V)$, reduzir o nó também
-igual a $O(V)$, conclui-se que o algoritmo tem uma complexidade de tempo igual
-a $O(V^2 + EV)$.
+é diminuída na fila de prioridade. Considerando uma estrutura de fila com
+lista, empurrar e retirar nós da fila são ambos iguais a $O(V)$, reduzir o nó
+também igual a $O(V)$. Portanto, conclui-se que o algoritmo tem uma
+complexidade de tempo igual a $O(V^2 + EV)$.
 
 O roteamento de fibras pode ser formulado como um problema de programação
 linear inteira \cite{griva2008linear}, onde variáveis binárias indicam se uma
