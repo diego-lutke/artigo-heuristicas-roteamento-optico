@@ -1,0 +1,99 @@
+\section{Estudo de Caso} \label{sec:algorithm}
+
+% Considere uma rede óptica modelada como um grafo $G=(V,E)$, onde $V$ representa
+% os nós (caixas de emenda ou atendimento) e $E$ representa enlaces
+% (cabos/fibras). Cada aresta $e \in E$ possui um peso $w(e)$ correspondente ao
+% custo físico (distância, atenuação ou custo de implantação). O objetivo é
+% determinar o caminho de menor custo entre um nó origem $s$ e um nó destino $t$.
+%
+\subsection{Estrutura da Heurística Proposta}
+
+O algoritmo proposto é dividido em duas camadas: (1) cálculo do caminho mais
+curto, implementado a partir do algoritmo de Dijkstra e responsável por
+identificar o percurso de menor custo entre origem e destino; (2) escolha e
+alocação das fibras, após definido o caminho, o algoritmo verifica a
+disponibilidade de fibras livres em cada enlace e seleciona a melhor fibra.
+
+A melhor fibra é escolhida baseada em três modos (1) coletando fibra em tubo
+conectado, (2) coletando uma fibra equivalente $f_e = (F_{>} / {F_{<}}) \bmod
+  f_{a}$, onde $f_{e} \leq F_{dest}$ e (3) coletando a primeira
+  fibra vaga de forma sequencial, isto é, desconsiderando tubos.
+
+A sequência de alocação das fibras pode ser definida antes da execućão do
+algoritmo a depender do tipo de sinal trafegado e dos padrões definidos pelo
+projetista, por meio de uma chave lógica. Um exemplo de uso seria utilizar o
+algoritmo para alocar as fibras de menor índice para backbones e as fibras de
+maior índice para redes PON.
+
+O uso de memória deve ser considerado também para redes de grande porte.
+Suponha-se que seja selecionado um número elevado de melhores rotas, a
+complexidade de espaço será igual a $O(n)$ do somatório de todas as conexões
+de tubos, visto que essas conexões podem ser descartadas após a análise das fibras
+de cada rota.
+
+Interessante também considerar o armazenamento da última fibra usada nos modos
+1 ou 2. Caso a fibra atual não seja uma fibra similar a amazenada, pode-se continuar
+com a fibra armazenada. Esse tipo de situação leva ao exemplo mostrado na Figura
+\ref{fig:fluxo_reduzido}.
+
+\subsection{Pseudocódigo Simplificado}
+
+\begin{algorithm}[H]
+\floatname{algorithm}{Algoritmo}
+\caption{Seleção das melhores fibras}
+\begin{algorithmic}[1]
+\State $\mathcal{R} \gets$ selecionar $n$ melhores rotas
+\ForAll{$r \in \mathcal{R}$}
+    \State $\mathcal{T}_r \gets$ coletar todos os tubos dos cabos da rota $r$
+    \State $\mathcal{N}_r \gets$ encontrar todas as caixas (nós) entre os tubos de $\mathcal{T}_r$
+    \ForAll{$n \in \mathcal{N}_r$}
+        \If{existem tubos encaixados em $n$ com base nas fusões existentes}
+            \State adicionar $n$ à pilha $\mathcal{T}_{c}$
+        \EndIf
+    \EndFor
+
+    \LineComment{Iteração pela rota com cabos e nós em sequência}
+    \ForAll{($c, n$) em sequência na rota $r$}
+        \If{$c$ é o cabo de origem}
+            \State $f \gets$ primeira fibra vaga em $c$
+            \IfNot{$f$}
+                \State cancelar iteração e tentar próxima rota
+                \State \textbf{continue}
+            \EndIf
+        \Else
+            \State $c_{a} \gets$ cabo anterior
+            \State $f_{a} \gets$ fibra utilizada em $c_{a}$
+
+            \LineComment{Três modos para encontrar a fibra vaga do cabo seguinte}
+            \If{fibra $f_{a}$ pertence a um tubo encaixado}
+                \State seguir na mesma fibra $f_{a}$ se estiver vaga
+            \ElsIf{fibra equivalente $f_{e}$ estiver vaga}
+                \State seguir com $f_{e}$
+            \Else
+                \State escolher a primeira fibra vaga, da mesma forma como o primeiro cabo
+            \EndIf
+        \EndIf
+    \EndFor
+
+    \State retornar cabos e fibras utilizados
+\EndFor
+\State \textbf{fim do algoritmo}
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Resultados Esperados}
+
+A heurística permite identificar rotas viáveis com uso eficiente das fibras,
+reduzindo bloqueios e maximizando a utilização de recursos ópticos. Em cenários
+com múltiplos caminhos equivalentes, o algoritmo pode ser estendido para
+priorizar critérios adicionais, como distância física, tempo de
+restabelecimento ou confiabilidade. Embora ainda não tenha sido implementada em
+um ambiente de simulação, a estrutura proposta fornece base sólida para
+experimentos futuros, seja em ferramentas de modelagem (como o Cisco Modeling
+Labs) ou em linguagens de programação voltadas a grafos (como Python/NetworkX) \cite{alwayn2004optical}.
+
+A alocação das fibras nas bandejas das caixas é feita de forma sequencial 
+dando prioridade a tubos já acomodados. Isso trás eficiência nas operações de
+rede e rapidez no diagnóstico de manutenções, visto que há um aproveitamento e
+otimização dos recursos utilizados.
+

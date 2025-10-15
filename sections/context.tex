@@ -1,0 +1,20 @@
+\section{Contexto e Diagnóstico} \label{sec:context}
+
+Nas operadoras de telecomunicações, a operação de redes ópticas envolve a
+manutenção de inventários físicos detalhados, com informações sobre cabos,
+fibras e equipamentos. Tradicionalmente, o roteamento e a alocação de fibras
+são realizados por sistemas comerciais de gerenciamento de rede (NMS — Network
+Management Systems) que utilizam dados georreferenciados e inventários para
+automatizar o processo \cite{livroprofessor}.
+
+Entretanto, no contexto acadêmico, é possível modelar o problema por meio de
+representações em grafos, onde vértices representam nós de rede e arestas
+representam enlaces ópticos. Cada enlace possui atributos, como comprimento,
+número de fibras e estado de ocupação. Essa abstração permite aplicar
+algoritmos clássicos de otimização, como Dijkstra e Bellman-Ford, adaptados à
+realidade das redes ópticas \cite{bazaraa2011linear}.
+
+O desafio, portanto, consiste em definir uma heurística que associe o menor
+caminho físico à disponibilidade de fibras livres, evitando bloqueios e
+sobrecargas, e permitindo futura expansão para o problema completo de Routing
+and Wavelength Assignment (RWA) \cite{artigorwa}.

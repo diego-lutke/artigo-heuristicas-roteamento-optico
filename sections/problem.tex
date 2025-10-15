@@ -1,4 +1,4 @@
-\section{Definição do Problema} \label{sec:problem}
+\section{Escopo do Problema} \label{sec:problem}
 
 Para delimitar o escopo do problema, primeiro: elementos ativos não serão
 considerados (ex.: terminal de linha óptico); segundo: uma fibra será
@@ -58,6 +58,7 @@ maior capacidade.
     \draw[dashed,thick] (3.5,40mm) -- (4.2,40mm) -- (4.2,20mm) -- (4.4,20mm);
 
     % cabo 02
+    \node at (6,24mm) {tubo 1};
     \draw[gray!80, thick] (6,9.5mm) ellipse [x radius=1.5mm, y radius=12mm];
     \draw[cyan] (5,0mm) node[align=left,left] {6} -- (7,0mm) node[align=right,right] {6};
     \draw[pink!50!red] (5,4mm) node[align=left,left] {5} -- (7,4mm) node[align=right,right] {5};
@@ -105,8 +106,6 @@ caixeiro-viajante \cite{lawler1985travelling} é fatorial com cada cidade
 adicionada, para cada par de fibra adicionado, as combinações crescem em
 $O(n!)$. A Figura \ref{fig:combinacoes_possiveis} ilustra todas as combinações
 possíveis para três pares de fibra.
-
-- fazer comparativo com o problema de otimização de fluxo máximo;
 
 \begin{figure}
   \centering

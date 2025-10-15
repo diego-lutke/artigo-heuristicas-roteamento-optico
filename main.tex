@@ -4,21 +4,29 @@
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
 \usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{caption}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
 \usetikzlibrary{graphs.standard}
-     
+\algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
+\algnewcommand\algorithmicnot{\textbf{not}}
+\algdef{SE}[IF]{IfNot}{EndIf}[1]{\algorithmicif\ \algorithmicnot\ #1\ \algorithmicthen}{\algorithmicend\ \algorithmicif}%
+
 \sloppy
 
-\input{./sections/1_header}
+\input{./sections/header}
 
 \begin{document}
 \maketitle
 
-\input{./sections/2_abstract}
-\input{./sections/3_introduction}
-\input{./sections/4_fundaments}
-\input{./sections/5_problem}
-\input{./sections/6_algorithm}
-\input{./sections/7_conclusion}
+\input{./sections/abstract}
+\input{./sections/introduction}
+\input{./sections/context}
+\input{./sections/fundaments}
+\input{./sections/problem}
+\input{./sections/algorithm}
+\input{./sections/conclusion}
 
 \bibliographystyle{./util/sbc}
 \bibliography{./util/references}
