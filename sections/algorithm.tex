@@ -19,7 +19,7 @@ conectado, (2) coletando uma fibra equivalente $f_e = (F_{>} / {F_{<}}) \bmod
   f_{a}$, onde $f_{e} \leq F_{dest}$ e (3) coletando a primeira
   fibra vaga de forma sequencial, isto é, desconsiderando tubos.
 
-A sequência de alocação das fibras pode ser definida antes da execućão do
+A sequência de alocação das fibras pode ser definida antes da execução do
 algoritmo a depender do tipo de sinal trafegado e dos padrões definidos pelo
 projetista, por meio de uma chave lógica. Um exemplo de uso seria utilizar o
 algoritmo para alocar as fibras de menor índice para backbones e as fibras de
@@ -28,7 +28,7 @@ maior índice para redes PON.
 O uso de memória deve ser considerado também para redes de grande porte.
 Supondo que seja selecionado um número elevado de melhores rotas, a
 complexidade de espaço será igual a $O(n)$ do somatório da rota com a maior
-quantidade de conexões de tubo, visto que a pilha das conexões devem ser
+quantidade de conexões de tubo, visto que a pilha das conexões deve ser
 descartadas após a análise de cada rota (linha 7 do Algoritmo
 \ref{alg:the_alg}).
 
@@ -87,7 +87,7 @@ mostrado na Figura \ref{fig:fluxo_reduzido}.
 
 A heurística permite identificar rotas viáveis com uso eficiente das fibras,
 reduzindo bloqueios e maximizando a utilização de recursos ópticos. Em cenários
-com múltiplos caminhos equivalentes. O algoritmo pode ser estendido para
+com múltiplos caminhos equivalentes, o algoritmo pode ser estendido para
 priorizar critérios adicionais, como distância física, tempo de
 restabelecimento ou confiabilidade. Embora ainda não tenha sido implementada em
 um ambiente de simulação, a estrutura proposta fornece base sólida para
@@ -95,7 +95,7 @@ experimentos futuros, seja em ferramentas de modelagem (como o Cisco Modeling
 Labs) ou em linguagens de programação voltadas a grafos (como Python/NetworkX) \cite{alwayn2004optical}.
 
 A alocação das fibras nas bandejas das caixas é feita de forma sequencial 
-dando prioridade a tubos já acomodados. Isso trás eficiência nas operações de
+dando prioridade a tubos já acomodados. Isso traz eficiência nas operações de
 rede e rapidez no diagnóstico de manutenções, visto que há um aproveitamento e
 otimização dos recursos utilizados.
 

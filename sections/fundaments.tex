@@ -11,13 +11,22 @@ Na teoria dos grafos, um grafo é uma estrutura composta por vértices ($V$)
 $G(V,E)$. Fazendo um paralelo com uma rede óptica, os vértices seriam as Caixas
 de Emenda (CE) e as Caixas de Atendimento (CA) \cite{maeda2009optical}; os
 cabos ópticos por sua vez seriam as arestas. O detalhe das arestas pode ser
-visto na Figura \ref{fig:ce_detalhe_bandejas}.
+visto na Figura \ref{fig:ce_detalhe_bandejas} e um exemplo de como as fusões
+são organizadas na Figura \ref{fig:diagrama_fusoes}, note como é evitado
+desagrupar as fusões entre tubos distintos.
+
+\begin{figure}
+  \centering
+	\includegraphics[width=.55\textwidth]{./images/caixa_emenda_detalhe_bandejas.png}
+	\caption{Detalhe bandejas em Caixa de Emenda}
+	\label{fig:ce_detalhe_bandejas}
+\end{figure}
 
 \begin{figure}[ht]
   \centering
-	\includegraphics[width=.5\textwidth]{./images/caixa_emenda_detalhe_bandejas.png}
-	\caption{Detalhe bandejas em Caixa de Emenda}
-	\label{fig:ce_detalhe_bandejas}
+	\includegraphics[width=.55\textwidth]{./images/diagrama_fusoes.png}
+	\caption{Exemplo de Diagrama de Fusões}
+	\label{fig:diagrama_fusoes}
 \end{figure}
 
 Os cabos ópticos são constituídos de fibras agrupadas em tubos. Cada fibra por
@@ -31,7 +40,7 @@ Esse redirecionamento das fibras ocorre com o uso de máquinas de fusão
 conforme mostra a Figura \ref{fig:ce_detalhe_bandejas}. Em um caso ideal,
 espera-se que de acordo com as requisições de demanda recebida, a ocupação das
 ranhuras seja feita de forma sequencial e organizada. Por exemplo, em um cabo
-contendo 12 tubos, com 12 fibras cada cabo, o grupo de ranhuras superior recebe
+contendo 12 tubos, com 12 fibras cada um, o grupo de ranhuras superior recebe
 o primeiro tubo, o segundo grupo o segundo tubo, assim por diante.
 
 \subsection{Algoritmos para Cálculo de Rotas}
