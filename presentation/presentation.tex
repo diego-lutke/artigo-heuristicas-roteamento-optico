@@ -1,7 +1,3 @@
-%----------------------------------------------------------------------------------------
-%    PACKAGES AND THEMES
-%----------------------------------------------------------------------------------------
-
 \documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
 \usetheme{SimplePlus}
 
@@ -9,25 +5,15 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 
-%----------------------------------------------------------------------------------------
-%    TITLE PAGE
-%----------------------------------------------------------------------------------------
-
 \title{SimplePlus Beamer Theme}
 \subtitle{Subtitle}
-
 \author{Diego M. A. Lütke}
-
 \institute
 {
     Department of Computer Science and Information Engineering \\
-    National Taiwan University % Your institution for the title page
+    National Taiwan University
 }
 \date{\today} % Date, can be changed to a custom date
-
-%----------------------------------------------------------------------------------------
-%    PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
 
 \begin{document}
 
@@ -43,21 +29,132 @@
     \tableofcontents
 \end{frame}
 
-%------------------------------------------------
 \section{First Section}
-%------------------------------------------------
 
-\begin{frame}{Bullet Points}
-    \begin{itemize}
-        \item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-        \item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
-        \item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
-        \item Nam cursus est eget velit posuere pellentesque
-        \item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
-    \end{itemize}
+\section{Motivação e Objetivo}
+\begin{frame}{Motivação}
+  \begin{itemize}
+    \item Redes ópticas: alta capacidade e papel crítico em infraestruturas de telecom.
+    \item Problema prático: otimizar roteamento físico e alocação de fibras para evitar bloqueios.
+    \item Restrições operacionais: inventário físico, bandejas e fusões em nós.
+  \end{itemize}
+  \note{(50s) Explicar por que alocação física de fibras é importante: manutenção, restauração, organização das bandejas e impacto operacional.}
 \end{frame}
 
-%------------------------------------------------
+\begin{frame}{Objetivo do Artigo}
+  \begin{itemize}
+    \item Propor uma heurística prática para roteamento físico — caminho + escolha de fibra.
+    \item Base: cálculo do menor caminho (Dijkstra) + algoritmo de seleção de fibras com três modos.
+    \item Foco em simplicidade, aplicabilidade e integração com NMS.
+  \end{itemize}
+  \note{(40s) Reforçar que o objetivo não é resolver RWA completo, mas um subconjunto prático do problema.}
+\end{frame}
+
+\section{Contexto e Modelagem}
+\begin{frame}{Modelagem como Grafo}
+  \begin{itemize}
+    \item Nós: Caixas de Emenda (CE) e Caixas de Atendimento (CA).
+    \item Arestas: cabos ópticos (com atributos: comprimento, número de fibras, ocupação).
+    \item Abstração permite uso de algoritmos de caminho mínimo (Dijkstra).
+  \end{itemize}
+  \note{(40s) Mostrar o paralelismo entre grafo e rede física. Explicar que cada enlace tem um vetor de fibras e estado binário (ocupada/vaga).}
+\end{frame}
+
+\begin{frame}{Estado da Arte}
+  \begin{itemize}
+    \item Problemas exatos (programação inteira) são NP-difíceis para instâncias reais.
+    \item Heurísticas (Dijkstra, variantes, alg. aproximativos) são práticas para operações em redes reais.
+    \item RWA (Routing \& Wavelength Assignment) é o problema mais geral; este trabalho reduz escopo para 1 $\lambda$ por alocação.
+  \end{itemize}
+  \note{(45s) Comentar sobre trade-off: precisão ótima vs. praticidade/tempo de execução.}
+\end{frame}
+
+\section{Escopo e Simplificações}
+\begin{frame}{Delimitação do Problema}
+  \begin{itemize}
+    \item Elementos ativos desconsiderados (sem TLA/OLTs/etc.).
+    \item Uma alocação = 1 comprimento de onda por fibra (sem splitters ou multiplexação multi-$\lambda$).
+    \item Atenuação, splitters e conversores ópticos não modelados.
+    \item Considera-se ocupada a fibra que já tem um $\lambda$ alocado.
+  \end{itemize}
+  \note{(40s) Justificar simplificações: facilitar heurística, foco em operações comuns de inventário físico.}
+\end{frame}
+
+%
+% \begin{frame}[fragile]{Pseudocódigo (resumo)}
+% \begin{algorithm}[H]
+% \caption*{Seleção das melhores fibras — versão condensada}
+% \begin{algorithmic}[1]
+% \State $\mathcal{R} \gets$ selecionar $n$ melhores rotas (Dijkstra)
+% \ForAll{$r \in \mathcal{R}$}
+%   \State coletar tubos e nós da rota $r$
+%   \ForAll{enlace $(c,n)$ ao longo de $r$}
+%     \If{origem}
+%       \State $f \gets$ primeira fibra vaga em $c$
+%       \IfNot{$f$} \State \textbf{continue} (próxima rota)
+%       \EndIf
+%     \Else
+%       \State $f_a \gets$ fibra anterior
+%       \If{mesmo tubo e $f_a$ vaga} \State $f \gets f_a$
+%       \ElsIf{fibra equivalente $f_e$ vaga} \State $f \gets f_e$
+%       \Else \State $f \gets$ primeira vaga
+%       \EndIf
+%     \EndIf
+%   \EndFor
+%   \State retornar rota e fibras se sucesso
+% \EndFor
+% \end{algorithmic}
+% \end{algorithm}
+%   \note{(80s) Ler rapidamente o pseudocódigo, destacando pontos de falha (quando cancelar rota) e a pilha usada para tubos encaixados.}
+% \end{frame}
+%
+\begin{frame}{Complexidade e Uso de Memória}
+  \begin{itemize}
+    \item Cálculo das $n$ melhores rotas: custo depende da implementação de Dijkstra / K-shortest.
+    \item Análise de cada rota: espaço proporcional ao comprimento da maior rota (pilha de conexões) $\Rightarrow O(n)$ em termos práticos.
+    \item A escolha de fibra é linear na quantidade de enlaces da rota (verificação por enlace).
+  \end{itemize}
+  \note{(40s) Comentar que heurística evita combinatorial blow-up da formulação exata, por isso é prática para redes de grande porte.}
+\end{frame}
+
+\section{Resultados Esperados e Aplicabilidade}
+\begin{frame}{Resultados Esperados}
+  \begin{itemize}
+    \item Identificar rotas viáveis com melhor aproveitamento de fibras.
+    \item Redução de bloqueios e manutenção do espelhamento físico nas bandejas.
+    \item Simplicidade de integração com NMS e implementação em ferramentas como NetworkX/Cisco CML.
+  \end{itemize}
+  \note{(40s) Explicar cenários de uso: provisionamento automatizado, planejamento de rota em restauração, testes em ambiente simulado.}
+\end{frame}
+
+\begin{frame}{Limitações}
+  \begin{itemize}
+    \item Sem testes empíricos no artigo (falta validação em simulação/produção).
+    \item Não trata múltiplos comprimentos de onda por fibra nem atenuação.
+    \item Estratégia heurística pode não ser ótima em cenários altamente carregados.
+  \end{itemize}
+  \note{(30s) Ser crítico: indicar quando a heurística pode falhar e necessidade de comparação com outras abordagens.}
+\end{frame}
+
+\section{Conclusão e Trabalhos Futuros}
+\begin{frame}{Conclusão}
+  \begin{itemize}
+    \item Heurística integra cálculo de menor caminho com regras práticas de alocação de fibra.
+    \item Boa relação entre simplicidade operacional e aplicabilidade prática.
+    \item Serve como base para implementações e experimentos futuros.
+  \end{itemize}
+  \note{(30s) Reforçar contribuição conceitual e utilidade prática como ponto de partida.}
+\end{frame}
+
+\begin{frame}{Trabalhos Futuros}
+  \begin{itemize}
+    \item Implementação e avaliação em simulador (CML, NetworkX, OMNeT++).
+    \item Extensão para múltiplos $\lambda$ por fibra (RWA completo) e inclusão de atenuação/distância.
+    \item Comparação com heurísticas/algoritmos meta-heurísticos (GA, GRASP, etc.).
+    \item Integração com dados reais de inventário e políticas de operação.
+  \end{itemize}
+  \note{(40s) Sugerir métricas para avaliação: taxa de bloqueio, utilização de fibra, tempo de alocação, custo de manutenção.}
+\end{frame}
 
 \begin{frame}{Blocks of Highlighted Text}
     In this slide, some important text will be \alert{highlighted} because it's important. Please, don't abuse it.
@@ -74,8 +171,6 @@
         Sample text in green box. The title of the block is ``Examples".
     \end{examples}
 \end{frame}
-
-%------------------------------------------------
 
 \begin{frame}{Multiple Columns}
     \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
@@ -96,9 +191,7 @@
     \end{columns}
 \end{frame}
 
-%------------------------------------------------
 \section{Second Section}
-%------------------------------------------------
 
 \begin{frame}{Table}
     \begin{table}
@@ -115,15 +208,11 @@
     \end{table}
 \end{frame}
 
-%------------------------------------------------
-
 \begin{frame}{Theorem}
     \begin{theorem}[Mass--energy equivalence]
         $E = mc^2$
     \end{theorem}
 \end{frame}
-
-%------------------------------------------------
 
 \begin{frame}{Figure}
     Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
@@ -132,23 +221,18 @@
     %\end{figure}
 \end{frame}
 
-%------------------------------------------------
-
 \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
     \frametitle{Citation}
     An example of the \verb|\cite| command to cite within the presentation:\\~
-
-    This statement requires citation \cite{p1}.
 \end{frame}
 
-%------------------------------------------------
+\nocite{*}
 
+\setbeamertemplate{bibliography item}[triangle]
 \begin{frame}{References}
     \footnotesize
-    \bibliography{reference.bib}
-    \bibliographystyle{apalike}
+    \bibliographystyle{ieeetr}
+    \bibliography{../util/references.bib}
 \end{frame}
-
-%------------------------------------------------
 
 \end{document}
