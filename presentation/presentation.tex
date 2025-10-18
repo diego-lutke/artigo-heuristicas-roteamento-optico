@@ -4,16 +4,18 @@
 \usepackage{hyperref}
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage[brazil]{babel}
 
-\title{SimplePlus Beamer Theme}
-\subtitle{Subtitle}
+\title{Heurística de Roteamento e Alocação de \\ Fibras em Redes Ópticas}
+% \subtitle{Subtitle}
 \author{Diego M. A. Lütke}
 \institute
 {
-    Department of Computer Science and Information Engineering \\
-    National Taiwan University
+    Escola Politécnica \\
+    Pontifícia Universidade Católica do Paraná
 }
-\date{\today} % Date, can be changed to a custom date
+
+\date{18 de Outubro de 2025}
 
 \begin{document}
 
@@ -22,93 +24,111 @@
     \titlepage
 \end{frame}
 
-\begin{frame}{Overview}
-    % Throughout your presentation, if you choose to use \section{} and
-    % \subsection{} commands, these will automatically be printed on this slide
-    % as an overview of your presentation
+\begin{frame}{Resumo}
     \tableofcontents
 \end{frame}
 
-\section{First Section}
-
-\section{Motivação e Objetivo}
-\begin{frame}{Motivação}
+\section{Introdução}\label{sec:introducao}
+\begin{frame}{\ref{sec:introducao} - Introdução | Motivação e Objetivo}
   \begin{itemize}
-    \item Redes ópticas: alta capacidade e papel crítico em infraestruturas de telecom.
-    \item Problema prático: otimizar roteamento físico e alocação de fibras para evitar bloqueios.
-    \item Restrições operacionais: inventário físico, bandejas e fusões em nós.
+    \item O papel crítico das redes de fibra ótpica em infraestruturas de telecom.
+    \item A necessidade de eficiência e qualidade na entrega de projetos.
+    \item Os impactos de uma rede desorganizada (e.g. demora em manutenções preventivas e emergenciais).
+    \item Alternativas menos custosas.
   \end{itemize}
-  \note{(50s) Explicar por que alocação física de fibras é importante: manutenção, restauração, organização das bandejas e impacto operacional.}
 \end{frame}
 
-\begin{frame}{Objetivo do Artigo}
+\begin{frame}{\ref{sec:introducao} - Introdução | Objetivo}
   \begin{itemize}
-    \item Propor uma heurística prática para roteamento físico — caminho + escolha de fibra.
-    \item Base: cálculo do menor caminho (Dijkstra) + algoritmo de seleção de fibras com três modos.
-    \item Foco em simplicidade, aplicabilidade e integração com NMS.
+    \item Propor uma heurística prática para roteamento físico (i.e. escolha da rota + escolha da fibra).
+    \item Otimizar a escolha de rotas e a alocação de fibras disponíveis, considerando aspectos práticos da rede.
   \end{itemize}
-  \note{(40s) Reforçar que o objetivo não é resolver RWA completo, mas um subconjunto prático do problema.}
 \end{frame}
 
-\section{Contexto e Modelagem}
-\begin{frame}{Modelagem como Grafo}
-  \begin{itemize}
-    \item Nós: Caixas de Emenda (CE) e Caixas de Atendimento (CA).
-    \item Arestas: cabos ópticos (com atributos: comprimento, número de fibras, ocupação).
-    \item Abstração permite uso de algoritmos de caminho mínimo (Dijkstra).
-  \end{itemize}
-  \note{(40s) Mostrar o paralelismo entre grafo e rede física. Explicar que cada enlace tem um vetor de fibras e estado binário (ocupada/vaga).}
+\section{Contexto e Diagnóstico}\label{sec:contexto}
+\begin{frame}{\ref{sec:contexto} - Contexto e Diagnóstico}
+\begin{itemize}
+  \item A operação de redes ópticas em telecomunicações depende do uso de sistemas de gerenciamento de rede para roteamento e alocação de fibras.
+  \item O problema pode ser modelado como um grafo, em que vértices (também chamados de nós) representam caixas/terminações ópticas e arestas representam enlaces ópticos.
+  \item Esse tipo de modelagem permite aplicar algoritmos clássicos de roteamento (e.g. Dijkstra e Bellman-Ford).
+  \item O primeiro desafio é criar uma heurística que combine o menor caminho físico com a disponibilidade de fibras livres, evitando bloqueios e permitindo escalabilidade da rede.
+  \item O segundo desafio é definir o problema, de modo a fazer um paralelo com o problema NP-completo de otimização \textit{Routing and Wavelength Assignment} (RWA).
+\end{itemize}
+
 \end{frame}
 
-\begin{frame}{Estado da Arte}
+\section{Estado da Arte}\label{sec:estado_da_arte}
+\begin{frame}{\ref{sec:estado_da_arte} - Estado da Arte | Redes Ópticas}
   \begin{itemize}
-    \item Problemas exatos (programação inteira) são NP-difíceis para instâncias reais.
-    \item Heurísticas (Dijkstra, variantes, alg. aproximativos) são práticas para operações em redes reais.
-    \item RWA (Routing \& Wavelength Assignment) é o problema mais geral; este trabalho reduz escopo para 1 $\lambda$ por alocação.
+    \item Os cabos ópticos são formados por fibras agrupadas em tubos, e cada fibra pode transmitir um ou mais comprimentos de onda ($\lambda$).
+    \item As fibras são redirecionadas nos vértices (CEs e CAs) conforme as demandas das operadoras, sendo os CAs responsáveis pelo atendimento a clientes via tecnologias PON.
+    \item O redirecionamento das fibras é feito por máquinas de fusão, organizando as conexões em bandejas de forma sequencial e estruturada conforme a demanda.
   \end{itemize}
-  \note{(45s) Comentar sobre trade-off: precisão ótima vs. praticidade/tempo de execução.}
 \end{frame}
 
-\section{Escopo e Simplificações}
-\begin{frame}{Delimitação do Problema}
-  \begin{itemize}
-    \item Elementos ativos desconsiderados (sem TLA/OLTs/etc.).
-    \item Uma alocação = 1 comprimento de onda por fibra (sem splitters ou multiplexação multi-$\lambda$).
-    \item Atenuação, splitters e conversores ópticos não modelados.
-    \item Considera-se ocupada a fibra que já tem um $\lambda$ alocado.
-  \end{itemize}
-  \note{(40s) Justificar simplificações: facilitar heurística, foco em operações comuns de inventário físico.}
+\begin{frame}{\ref{sec:estado_da_arte} - Estado da Arte | Redes Ópticas}
+  \begin{figure}
+    \includegraphics[width=0.5\linewidth]{../images/caixa_emenda_detalhe_bandejas.png}
+  \end{figure}
 \end{frame}
 
-%
-% \begin{frame}[fragile]{Pseudocódigo (resumo)}
-% \begin{algorithm}[H]
-% \caption*{Seleção das melhores fibras — versão condensada}
-% \begin{algorithmic}[1]
-% \State $\mathcal{R} \gets$ selecionar $n$ melhores rotas (Dijkstra)
-% \ForAll{$r \in \mathcal{R}$}
-%   \State coletar tubos e nós da rota $r$
-%   \ForAll{enlace $(c,n)$ ao longo de $r$}
-%     \If{origem}
-%       \State $f \gets$ primeira fibra vaga em $c$
-%       \IfNot{$f$} \State \textbf{continue} (próxima rota)
-%       \EndIf
-%     \Else
-%       \State $f_a \gets$ fibra anterior
-%       \If{mesmo tubo e $f_a$ vaga} \State $f \gets f_a$
-%       \ElsIf{fibra equivalente $f_e$ vaga} \State $f \gets f_e$
-%       \Else \State $f \gets$ primeira vaga
-%       \EndIf
-%     \EndIf
-%   \EndFor
-%   \State retornar rota e fibras se sucesso
-% \EndFor
-% \end{algorithmic}
-% \end{algorithm}
-%   \note{(80s) Ler rapidamente o pseudocódigo, destacando pontos de falha (quando cancelar rota) e a pilha usada para tubos encaixados.}
-% \end{frame}
-%
-\begin{frame}{Complexidade e Uso de Memória}
+\begin{frame}{\ref{sec:estado_da_arte} - Estado da Arte | Redes Ópticas}
+  \begin{figure}
+    \includegraphics[width=0.45\linewidth]{../images/diagrama_fusoes.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\ref{sec:estado_da_arte} - Estado da Arte | Algoritmos}
+  \begin{itemize}
+    \item São considerados dois algoritmos clássicos: Dijkstra e Bellman-Ford.
+    \item O Algoritmo de Dijkstra encontra o caminho de menor custo em grafos com pesos não negativos.
+    \item Bellman-Ford permite arestas com pesos negativos, mas apresenta maior complexidade temporal.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\ref{sec:estado_da_arte} - Estado da Arte | Algoritmo de Dijkstra}
+  \begin{itemize}
+    \item No contexto de redes óptica, Dijkstra é aplicável, pois o custo corresponde à distância, não havendo pesos negativos.
+    \item A complexidade de tempo do Dijkstra envolve três operações principais: inserção, remoção e atualização de vértices na fila de prioridades.
+    \item Com estrutura de fila baseada em lista, o algoritmo apresenta complexidade total $O(V^2 + EV)$.
+  \end{itemize}
+
+    \begin{alertblock}{Ponto de Atenção}
+      O Algoritmo de Dijkstra não é ideal para longas sequências de nós, devido à necessidade de percorrer todo o ramo.
+    \end{alertblock}
+\end{frame}
+
+\section{Escopo do Problema}\label{sec:escopo}
+\begin{frame}{\ref{sec:escopo} - Escopo do Problema}
+  \begin{enumerate}
+    \item Elementos ativos são desconsiderados (i.e. DWDMs, OLTs).
+    \item Multiplexação e conversores de onda são desconsiderados.
+    \item Atenuação é desconsiderado.
+    \item Considera-se uma fibra ocupada quando há um comprimento de onda associado a ela, ou seja, um $\lambda$ por alocação.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{\ref{sec:escopo} - Escopo do Problema | Pontos de Observação}
+  \begin{itemize}
+    \item Em redes novas, as fibras são geralmente alocadas de forma espelhada (do menor ao maior índice).
+    \item Em falhas ou substituições temporárias de cabos, o "espelhamento" pode se perder, mas o retorno dos comprimentos de onda as mesmas fibras simplifica a reorganização.
+  \end{itemize}
+  \begin{figure}
+    \includegraphics[width=0.70\linewidth]{../images/fluxo_reduzido.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\ref{sec:escopo} - Escopo do Problema | Pontos de Observação}
+  \begin{itemize}
+    \item A alocação de fibras é um problema NP-completo, com crescimento combinatorial fatorial $O(n!)$ semelhante ao problema do caixeiro-viajante.
+  \end{itemize}
+  \begin{figure}
+    \includegraphics[width=0.80\linewidth]{../images/combinacoes_possiveis.png}
+  \end{figure}
+\end{frame}
+
+\section{Estudo de Caso}\label{sec:estudo_de_caso}
+\begin{frame}{\ref{sec:estudo_de_caso} - Estudo de Caso}
   \begin{itemize}
     \item Cálculo das $n$ melhores rotas: custo depende da implementação de Dijkstra / K-shortest.
     \item Análise de cada rota: espaço proporcional ao comprimento da maior rota (pilha de conexões) $\Rightarrow O(n)$ em termos práticos.
@@ -117,8 +137,7 @@
   \note{(40s) Comentar que heurística evita combinatorial blow-up da formulação exata, por isso é prática para redes de grande porte.}
 \end{frame}
 
-\section{Resultados Esperados e Aplicabilidade}
-\begin{frame}{Resultados Esperados}
+\begin{frame}{\ref{sec:estudo_de_caso} - Estudo de Caso | Resultados Esperados}
   \begin{itemize}
     \item Identificar rotas viáveis com melhor aproveitamento de fibras.
     \item Redução de bloqueios e manutenção do espelhamento físico nas bandejas.
@@ -127,7 +146,7 @@
   \note{(40s) Explicar cenários de uso: provisionamento automatizado, planejamento de rota em restauração, testes em ambiente simulado.}
 \end{frame}
 
-\begin{frame}{Limitações}
+\begin{frame}{\ref{sec:estudo_de_caso} - Estudo de Caso | Limitações}
   \begin{itemize}
     \item Sem testes empíricos no artigo (falta validação em simulação/produção).
     \item Não trata múltiplos comprimentos de onda por fibra nem atenuação.
@@ -136,8 +155,8 @@
   \note{(30s) Ser crítico: indicar quando a heurística pode falhar e necessidade de comparação com outras abordagens.}
 \end{frame}
 
-\section{Conclusão e Trabalhos Futuros}
-\begin{frame}{Conclusão}
+\section{Conclusão}\label{sec:conclusao}
+\begin{frame}{\ref{sec:estudo_de_caso} - Conclusão}
   \begin{itemize}
     \item Heurística integra cálculo de menor caminho com regras práticas de alocação de fibra.
     \item Boa relação entre simplicidade operacional e aplicabilidade prática.
@@ -156,63 +175,58 @@
   \note{(40s) Sugerir métricas para avaliação: taxa de bloqueio, utilização de fibra, tempo de alocação, custo de manutenção.}
 \end{frame}
 
-\begin{frame}{Blocks of Highlighted Text}
-    In this slide, some important text will be \alert{highlighted} because it's important. Please, don't abuse it.
+% \begin{frame}{Blocks of Highlighted Text}
+%     In this slide, some important text will be \alert{highlighted} because it's important. Please, don't abuse it.
+%
+%     \begin{block}{Block}
+%         Sample text
+%     \end{block}
+%
+%
+%     \begin{examples}
+%         Sample text in green box. The title of the block is ``Examples".
+%     \end{examples}
+% \end{frame}
 
-    \begin{block}{Block}
-        Sample text
-    \end{block}
-
-    \begin{alertblock}{Alertblock}
-        Sample text in red box
-    \end{alertblock}
-
-    \begin{examples}
-        Sample text in green box. The title of the block is ``Examples".
-    \end{examples}
-\end{frame}
-
-\begin{frame}{Multiple Columns}
-    \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-
-        \column{.45\textwidth} % Left column and width
-        \textbf{Heading}
-        \begin{enumerate}
-            \item Statement
-            \item Explanation
-            \item Example
-        \end{enumerate}
-
-        \column{.45\textwidth} % Right column and width
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus
-        nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut
-        tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-    \end{columns}
-\end{frame}
-
-\section{Second Section}
-
-\begin{frame}{Table}
-    \begin{table}
-        \begin{tabular}{l l l}
-            \toprule
-            \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
-            \midrule
-            Treatment 1         & 0.0003262           & 0.562               \\
-            Treatment 2         & 0.0015681           & 0.910               \\
-            Treatment 3         & 0.0009271           & 0.296               \\
-            \bottomrule
-        \end{tabular}
-        \caption{Table caption}
-    \end{table}
-\end{frame}
-
-\begin{frame}{Theorem}
-    \begin{theorem}[Mass--energy equivalence]
-        $E = mc^2$
-    \end{theorem}
-\end{frame}
+% \begin{frame}{Multiple Columns}
+%     \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+%
+%         \column{.45\textwidth} % Left column and width
+%         \textbf{Heading}
+%         \begin{enumerate}
+%             \item Statement
+%             \item Explanation
+%             \item Example
+%         \end{enumerate}
+%
+%         \column{.45\textwidth} % Right column and width
+%         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus
+%         nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut
+%         tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+%
+%     \end{columns}
+% \end{frame}
+%
+% \begin{frame}{Table}
+%     \begin{table}
+%         \begin{tabular}{l l l}
+%             \toprule
+%             \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
+%             \midrule
+%             Treatment 1         & 0.0003262           & 0.562               \\
+%             Treatment 2         & 0.0015681           & 0.910               \\
+%             Treatment 3         & 0.0009271           & 0.296               \\
+%             \bottomrule
+%         \end{tabular}
+%         \caption{Table caption}
+%     \end{table}
+% \end{frame}
+%
+% \begin{frame}{Theorem}
+%     \begin{theorem}[Mass--energy equivalence]
+%         $E = mc^2$
+%     \end{theorem}
+% \end{frame}
 
 \begin{frame}{Figure}
     Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
@@ -221,17 +235,12 @@
     %\end{figure}
 \end{frame}
 
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-    \frametitle{Citation}
-    An example of the \verb|\cite| command to cite within the presentation:\\~
-\end{frame}
-
 \nocite{*}
 
 \setbeamertemplate{bibliography item}[triangle]
-\begin{frame}{References}
+\begin{frame}[shrink=16]{Referências}
     \footnotesize
-    \bibliographystyle{ieeetr}
+    \bibliographystyle{siam}
     \bibliography{../util/references.bib}
 \end{frame}
 
