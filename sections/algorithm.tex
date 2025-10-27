@@ -16,7 +16,7 @@ disponibilidade de fibras livres em cada enlace e seleciona a melhor fibra.
 
 A melhor fibra é escolhida baseada em três modos (1) coletando fibra em tubo
 conectado, (2) coletando uma fibra equivalente $f_e = (F_{>} / {F_{<}}) \bmod
-  f_{a}$, onde $f_{e} \leq F_{dest}$ e (3) coletando a primeira
+  f_{a}$, onde $f_{e} \leq F_{>}$ e (3) coletando a primeira
   fibra vaga de forma sequencial, isto é, desconsiderando tubos.
 
 A sequência de alocação das fibras pode ser definida antes da execução do
@@ -92,10 +92,41 @@ priorizar critérios adicionais, como distância física, tempo de
 restabelecimento ou confiabilidade. Embora ainda não tenha sido implementada em
 um ambiente de simulação, a estrutura proposta fornece base sólida para
 experimentos futuros, seja em ferramentas de modelagem (como o Cisco Modeling
-Labs) ou em linguagens de programação voltadas a grafos (como Python/NetworkX) \cite{alwayn2004optical}.
+Labs) ou em linguagens de programação voltadas a grafos (como Python/NetworkX)
+\cite{alwayn2004optical}.
 
 A alocação das fibras nas bandejas das caixas é feita de forma sequencial 
 dando prioridade a tubos já acomodados. Isso traz eficiência nas operações de
 rede e rapidez no diagnóstico de manutenções, visto que há um aproveitamento e
 otimização dos recursos utilizados.
+
+\subsection{Implementação Proposta}
+
+Para implementar o algoritmo proposto, é necessário construir um banco de dados
+com a seguinte estrutura: (1) uma tabela de nós, contendo o nome dos nós, (2)
+uma tabela contendo o nome dos cabos e as distâncias, (3) uma tabela (opcional)
+contendo o conjunto de coordenadas dos vértices de cada cabo, (4) uma tabela
+com as fibras, contento o índice das fibras e um campo \textit{boolean}
+sinalizando se a fibra está ocupada/alocada ou não e (5) uma tabela contendo os
+conectores.
+
+Cada tabela deve possuir chaves primárias que identifiquem unicamente os
+elementos. A tabela opcional de coordenadas tem apenas a função de visualização
+dos elementos em um mapa, não sendo necessária para a execução dos algoritmos.
+Também é preciso estabelecer as relações entre as tabelas: na tabela de cabos,
+devem existir chaves estrangeiras para os nós inicial e final; na tabela de
+fibras, chaves estrangeiras que referenciem os cabos; e na tabela de
+coordenadas, chaves estrangeiras que também apontem para os cabos. A tabela de
+conectores deve se relacionar com as tabelas de nós e de fibras.
+
+A implementação das lógicas pode ser realizada por meio de programação
+orientada a objetos. Recomenda-se a criação de uma classe construtora de
+grafos, responsável por consumir o banco de dados; uma classe com o Algoritmo
+de Dijkstra; e uma classe adicional com o Algoritmo \ref{alg:the_alg}. A classe
+do Algoritmo de Dijkstra utiliza apenas as tabelas de nós e cabos, em conjunto
+com o nó de origem e o nó de destino definidos. Já a classe do Algoritmo
+\ref{alg:the_alg} consome as melhores rotas obtidas pelo Algoritmo de Dijkstra,
+em conjunto com as demais tabelas do banco de dados. Caso as rotas e as fibras
+escolhidas sejam aprovadas e validadas pelo projetista, essas informações podem
+ser retroalimentadas no banco de dados.
 
